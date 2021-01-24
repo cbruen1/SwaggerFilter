@@ -1,2 +1,3 @@
 # SwaggerFilter
-A demo app showing how to filter an API endpoints by consumer
+
+A demo app showing how to filter .NET Core API endpoints by consumer using Swagger and Swashbuckle.
