@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace SwaggerFilterTest.Controllers.v2
 {
-	[ApiVersion("2.0")]
 	[Route("api/v{version:apiVersion}/notification")]
 	[ApiController]
-	[ApiExplorerSettings(GroupName = "v2-conA")]
+	[ApiVersion("2.0")]
 	public class NotificationController : ControllerBase
 	{
 		[HttpPost("send-notification")]
-		[SwaggerOperation(Tags = new[] { "ConA - Notification", "ConC - Notification" })]
+		[SwaggerOperation(Tags = new[] { Constants.ApiConsumerTagNameConANotification, Constants.ApiConsumerTagNameConCNotification })]
 		public ActionResult SendNotification([FromBody] string userId)
 		{
 			return Ok($"{userId} V2");

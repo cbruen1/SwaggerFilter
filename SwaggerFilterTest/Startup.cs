@@ -8,20 +8,44 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SwaggerFilterTest
 {
 	public class Startup
 	{
+		private static Startup Instance { get; set; }
+
+		private static string AssemblyName { get; }
+
+		private static string FullVersionNo { get; }
+
+		private static string MajorMinorVersionNo { get; }
+
+		static Startup()
+		{
+			var fmt = CultureInfo.InvariantCulture;
+			var assemblyName = Assembly.GetExecutingAssembly().GetName();
+			AssemblyName = assemblyName.Name;
+			FullVersionNo = string.Format(fmt, "v{0}", assemblyName.Version.ToString());
+			MajorMinorVersionNo = string.Format(fmt, "v{0}.{1}",
+				assemblyName.Version.Major, assemblyName.Version.Minor);
+		}
+
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
+			Instance = this;
 		}
 
 		public IConfiguration Configuration { get; }
@@ -46,33 +70,20 @@ namespace SwaggerFilterTest
 				options.SubstituteApiVersionInUrl = true;
 			});
 
+			// Use an IConfigureOptions for the settings
+			services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
 			services.AddSwaggerGen(c =>
 			{
-				c.OperationFilter<ApiVersionFilter>();
-
-				c.SwaggerDoc("v1", new OpenApiInfo() { Title = "My API - Version 1", Version = "v1.0" });
-				c.SwaggerDoc("v2-conA", new OpenApiInfo() { Title = "My API - Version 2", Version = "v2.0" });
-				c.SwaggerDoc("v2-conB", new OpenApiInfo() { Title = "My API - Version 2", Version = "v2.0" });
-				c.SwaggerDoc("v2-conC", new OpenApiInfo() { Title = "My API - Version 2", Version = "v2.0" });
-
-				c.TagActionsBy(api =>
-				{
-					if (api.GroupName != null)
-					{
-						return new[] { api.GroupName };
-					}
-
-					var controllerActionDescriptor = api.ActionDescriptor as ControllerActionDescriptor;
-					if (controllerActionDescriptor != null)
-					{
-						return new[] { controllerActionDescriptor.ControllerName };
-					}
-
-					return null;
-				});
-
 				c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
+				// Group by tag
 				c.EnableAnnotations();
+
+				// Include comments for current assembly
+				var xmlFile = $"{AssemblyName}.xml";
+				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+				c.IncludeXmlComments(xmlPath);
 			});
 		}
 
@@ -100,23 +111,15 @@ namespace SwaggerFilterTest
 			app.UseSwaggerUI(c =>
 			{
 				c.EnableDeepLinking();
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-				c.SwaggerEndpoint("/swagger/v2-conA/swagger.json", "My API V2 ConA");
-				c.SwaggerEndpoint("/swagger/v2-conB/swagger.json", "My API V2 ConB");
-				c.SwaggerEndpoint("/swagger/v2-conC/swagger.json", "My API V2 ConC");
-			});
-		}
-	}
 
-	internal class ApiVersionFilter : IOperationFilter
-	{
-		public void Apply(OpenApiOperation operation, OperationFilterContext context)
-		{
-			var paramsToRemove = operation.Parameters.Where(p => p.Name == "api-version").ToList();
-			foreach (var item in paramsToRemove)
-			{
-				operation.Parameters.Remove(item);
-			}
+				// Build a swagger endpoint for each API version and consumer
+				c.SwaggerEndpoint($"/swagger/{Constants.ApiVersion1}/swagger.json", "MyAccount API V1");
+				c.SwaggerEndpoint($"/swagger/{Constants.ApiConsumerGroupNameConA}/swagger.json", $"MyAccount API V2 {Constants.ApiConsumerNameConA}");
+				c.SwaggerEndpoint($"/swagger/{Constants.ApiConsumerGroupNameConB}/swagger.json", $"MyAccount API V2 {Constants.ApiConsumerNameConB}");
+				c.SwaggerEndpoint($"/swagger/{Constants.ApiConsumerGroupNameConC}/swagger.json", $"MyAccount API V2 {Constants.ApiConsumerNameConC}");
+
+				c.DocExpansion(DocExpansion.List);
+			});
 		}
 	}
 }

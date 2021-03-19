@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SwaggerFilterTest.Controllers
 {
 	[ApiController]
-	[ApiExplorerSettings(GroupName = "v1")]
+	[ApiExplorerSettings(GroupName = Constants.ApiVersion1)]
 	public class AccountController : ControllerBase
 	{
 		[HttpGet("api/account/get-user-details")]

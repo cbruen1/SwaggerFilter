@@ -10,7 +10,7 @@ namespace SwaggerFilterTest.Controllers
 {
 	[Route("api/account-admin")]
 	[ApiController]
-	[ApiExplorerSettings(GroupName = "v1")]
+	[ApiExplorerSettings(GroupName = Constants.ApiVersion1)]
 	public class AccountAdminController : ControllerBase
 	{
 		[HttpPost("verify")]

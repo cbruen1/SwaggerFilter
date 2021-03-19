@@ -10,7 +10,7 @@ namespace SwaggerFilterTest.Controllers
 {
 	[Route("api/notification")]
 	[ApiController]
-	[ApiExplorerSettings(GroupName = "v1")]
+	[ApiExplorerSettings(GroupName = Constants.ApiVersion1)]
 	public class NotificationController : ControllerBase
 	{
 		[HttpPost("send-notification")]

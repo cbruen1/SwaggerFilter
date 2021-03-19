@@ -11,11 +11,10 @@ namespace SwaggerFilterTest.Controllers.v2
 	[Route("api/v{version:apiVersion}/account-admin")]
 	[ApiController]
 	[ApiVersion("2.0")]
-	[ApiExplorerSettings(GroupName = "v2-conB")]
 	public class AccountAdminController : ControllerBase
 	{
 		[HttpPost("verify")]
-		[SwaggerOperation(Tags = new[] { "ConB - Account Admin", "ConC - Account Admin" })]
+		[SwaggerOperation(Tags = new[] { Constants.ApiConsumerTagNameConBAccountAdmin, Constants.ApiConsumerTagNameConCAccountAdmin })]
 		public ActionResult Verify([FromBody] string userId)
 		{
 			return Ok($"{userId} V2");

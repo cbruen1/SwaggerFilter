@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SwaggerFilterTest</name>
+    </assembly>
+    <members>
+        <member name="M:SwaggerFilterTest.ConfigureSwaggerOptions.Configure(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SwaggerFilterTest.ConfigureSwaggerOptions"/> class.
+            </summary>
+            <param name="options">The options specified by <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/> object</param>
+            <inheritdoc />
+        </member>
+        <member name="M:SwaggerFilterTest.SwaggerFilters.SwaggerDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Applies the document filtering
+            </summary>
+            <param name="swaggerDoc">The <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/> Swagger document</param>
+            <param name="context">The <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/> object</param>
+        </member>
+        <member name="M:SwaggerFilterTest.SwaggerFilters.SwaggerDocumentFilter.RemoveTags(System.String,System.Collections.Generic.KeyValuePair{System.String,Microsoft.OpenApi.Models.OpenApiPathItem})">
+            <summary>
+            Remove tags not applicable to the current consumer
+            </summary>
+            <param name="currentConsumer">Current consumer</param>
+            <param name="path">The current path</param>
+            <returns>A Swagger path in the form of a key value pair</returns>
+        </member>
+    </members>
+</doc>
