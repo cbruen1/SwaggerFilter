@@ -43,9 +43,12 @@ namespace SwaggerFilterTest
         {
             ApiPathSchemas = new Dictionary<string, List<string>>()
             {
+                //// Whatever objects are used as parameters or return objects in the API will be listed under the Schemas section in the Swagger UI
+                //// Use below to add the list required by each consumer
+                
                 // Consumer A has access to all so only specify those for B and C
-                { ApiConsumerNameConB, new List<string>() { "SearchOutcome", "VerificationDetails", "VerifyingPartyDetails", "VerificationStatus", "ChangeMobileNumberRequest", "RepaymentOption" }},
-                { ApiConsumerNameConC, new List<string>() { "SearchOutcome", "VerificationDetails", "NotificationType", "SendNotificationRequest", "ProblemDetails" }}
+                // { ApiConsumerNameConB, new List<string>() { "SearchOutcome", "AccountDetails", "ProblemDetails" }},
+                // { ApiConsumerNameConC, new List<string>() { "NotificationType", "SendNotificationRequest", "ProblemDetails" }}
             };
         }
     }

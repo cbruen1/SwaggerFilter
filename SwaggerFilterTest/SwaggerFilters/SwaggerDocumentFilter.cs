@@ -37,18 +37,20 @@ namespace SwaggerFilterTest.SwaggerFilters
                     }
                 }
 
-                // Remove schemas not belonging to the current path
-                foreach (KeyValuePair<string, OpenApiSchema> schema in allSchemas)
-                {
-                    // Get the schemas for current consumer
-                    if (Constants.ApiPathSchemas.TryGetValue(currentConsumer, out List<string> schemaList))
-                    {
-                        if (!schemaList.Contains(schema.Key))
-                        {
-                            swaggerDoc.Components.Schemas.Remove(schema.Key);
-                        }
-                    }
-                }
+                //// Whatever objects are used as parameters or return objects in the API will be listed under the Schemas section in the Swagger UI
+                //// Use below to filter them based on the current consumer - remove schemas not belonging to the current path
+                
+                //foreach (KeyValuePair<string, OpenApiSchema> schema in allSchemas)
+                //{
+                //    // Get the schemas for current consumer
+                //    if (Constants.ApiPathSchemas.TryGetValue(currentConsumer, out List<string> schemaList))
+                //    {
+                //        if (!schemaList.Contains(schema.Key))
+                //        {
+                //            swaggerDoc.Components.Schemas.Remove(schema.Key);
+                //        }
+                //    }
+                //}
             }
             else
             {
