@@ -26,15 +26,15 @@ namespace SwaggerFilterTest
         // grouped and named in the Swagger UI
 
         // Swagger ConA tag names
-        public const string ApiConsumerTagNameConAAccount = "ConA - Account";
-        public const string ApiConsumerTagNameConANotification = "ConA - Notification";
+        public const string ApiConsumerTagNameConAAccount = ApiConsumerNameConA + " - Account";
+        public const string ApiConsumerTagNameConANotification = ApiConsumerNameConA + " - Notification";
 
         // Swagger ConB tag names
-        public const string ApiConsumerTagNameConBAccountAdmin = "ConB - Account Admin";
+        public const string ApiConsumerTagNameConBAccountAdmin = ApiConsumerNameConB + " - Account Admin";
 
         // Swagger ConC tag names
-        public const string ApiConsumerTagNameConCAccountAdmin = "ConC - Account Admin";
-        public const string ApiConsumerTagNameConCNotification = "ConC - Notification";
+        public const string ApiConsumerTagNameConCAccountAdmin = ApiConsumerNameConC + " - Account Admin";
+        public const string ApiConsumerTagNameConCNotification = ApiConsumerNameConC + " - Notification";
 
         // Store the schemes belonging to each Path for Swagger so only the relevant ones are shown in the Swagger UI
         public static IReadOnlyDictionary<string, List<string>> ApiPathSchemas;
